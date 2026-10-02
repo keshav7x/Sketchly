@@ -6,6 +6,7 @@ out
 dist
 *.tgz
 
+drizzle
 # code coverage
 coverage
 *.lcov
