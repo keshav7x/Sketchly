@@ -72,13 +72,13 @@ export const workspaceTable = pgTable(
       .defaultNow(),
   },
 
-  (table) => ({
-    ownerIdIdx: index("workspace_owner_id_idx")
-      .on(table.ownerId),
-
-    ownerNameUnique: uniqueIndex("workspace_owner_name_unique")
-      .on(table.ownerId, table.name),
-  }),
+  (table) => [
+    index("workspace_owner_id_idx").on(table.ownerId),
+    uniqueIndex("workspace_owner_name_unique").on(
+      table.ownerId,
+      table.name,
+    ),
+  ],
 );
 
 
@@ -127,14 +127,12 @@ export const boardTable = pgTable(
       .defaultNow(),
   },
 
-  (table) => ({
-    ownerIdIdx: index("board_owner_id_idx")
-      .on(table.ownerId),
-
-    workspaceIdIdx: index("board_workspace_id_idx")
-      .on(table.workspaceId),
-
-    workspaceNameUnique: uniqueIndex("board_workspace_name_unique")
-      .on(table.workspaceId, table.name),
-  }),
+  (table) => [
+    index("board_owner_id_idx").on(table.ownerId),
+    index("board_workspace_id_idx").on(table.workspaceId),
+    uniqueIndex("board_workspace_name_unique").on(
+      table.workspaceId,
+      table.name,
+    ),
+  ],
 );
