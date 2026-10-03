@@ -59,6 +59,8 @@ export const workspaceTable = pgTable(
     name: varchar({ length: 100 })
       .notNull(),
 
+    softDelete:boolean().default(false),
+
     createdAt: timestamp({
       withTimezone: true,
     })

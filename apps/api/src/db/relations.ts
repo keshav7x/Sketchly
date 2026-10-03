@@ -1,51 +1,41 @@
-import { defineRelations } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
   boardTable,
   userTable,
   workspaceTable,
 } from "./schema";
 
-export const relations = defineRelations(
-  {
-    userTable,
-    workspaceTable,
-    boardTable,
-  },
-  (r) => ({
-    userTable: {
-      workspaces: r.many.workspaceTable({
-        from: r.userTable.id,
-        to: r.workspaceTable.ownerId,
-      }),
+export const userRelations = relations(
+  userTable,
+  ({ many }) => ({
+    workspaces: many(workspaceTable),
+    boards: many(boardTable),
+  }),
+);
 
-      boards: r.many.boardTable({
-        from: r.userTable.id,
-        to: r.boardTable.ownerId,
-      }),
-    },
+export const workspaceRelations = relations(
+  workspaceTable,
+  ({ one, many }) => ({
+    owner: one(userTable, {
+      fields: [workspaceTable.ownerId],
+      references: [userTable.id],
+    }),
 
-    workspaceTable: {
-      owner: r.one.userTable({
-        from: r.workspaceTable.ownerId,
-        to: r.userTable.id,
-      }),
+    boards: many(boardTable),
+  }),
+);
 
-      boards: r.many.boardTable({
-        from: r.workspaceTable.id,
-        to: r.boardTable.workspaceId,
-      }),
-    },
+export const boardRelations = relations(
+  boardTable,
+  ({ one }) => ({
+    owner: one(userTable, {
+      fields: [boardTable.ownerId],
+      references: [userTable.id],
+    }),
 
-    boardTable: {
-      owner: r.one.userTable({
-        from: r.boardTable.ownerId,
-        to: r.userTable.id,
-      }),
-
-      workspace: r.one.workspaceTable({
-        from: r.boardTable.workspaceId,
-        to: r.workspaceTable.id,
-      }),
-    },
+    workspace: one(workspaceTable, {
+      fields: [boardTable.workspaceId],
+      references: [workspaceTable.id],
+    }),
   }),
 );
