@@ -1,23 +1,32 @@
 services:
   api:
     build:
-      context : .
-      dockerfile: "apps/api/dockerfile"
+      context: .
+      dockerfile: apps/api/dockerfile
     ports:
       - "4000:4000"
-      
-    
+    environment:
+      DATABASE_URL: "postgresql://sketchly:secret@postgres:5432/sketchly"
+      REDIS_URL: "redis://redis:6379"
+    depends_on:
+      - postgres
+      - redis
+
   redis:
-    image: "redis:7"
+    image: redis:7
     ports:
-      - "4379:4379"
-    
+      - "4379:6379"
 
   postgres:
-    image: "postgres:17"
+    image: postgres:17
     ports:
-      - "3000:3000"
-    environments:
-      DATABASE_URL: "postgresql://sketchly:secret@postgres:5432/sketchly"
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: sketchly
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: sketchly
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
 volumes:
-    
+  postgres_data:
