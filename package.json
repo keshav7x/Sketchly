@@ -25,5 +25,9 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "konva": "^10.7.0",
+    "react-konva": "^19.3.0"
+  }
 }
