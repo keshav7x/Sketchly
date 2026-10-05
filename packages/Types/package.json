@@ -1,0 +1,20 @@
+{
+  "name": "@sketchly/types",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./index.ts",
+    "./shapes": "./shapes.ts",
+    "./*": "./*.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "dependencies": {
+    "@sketchly/engine": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^7"
+  }
+}

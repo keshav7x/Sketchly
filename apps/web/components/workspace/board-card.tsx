@@ -10,7 +10,7 @@ import BoardPreview from "./board-preview";
 import { BoardMenu } from "./board-menu";
 import { TagChip } from "./tag-chip";
 
-function FavoriteButton({ board, className }: { board: Board; className?: string }) {
+export function FavoriteButton({ board, className }: { board: Board; className?: string }) {
   const { toggleFavorite } = useWorkspace();
   return (
     <motion.button
